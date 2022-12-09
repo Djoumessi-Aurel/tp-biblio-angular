@@ -1,0 +1,26 @@
+<h2 *ngIf="book.id===-1">Ajouter un livre</h2>
+<h2 *ngIf="book.id!==-1">Modifier un livre</h2>
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+            <div class="form-group my-2">
+                <label for="title">Titre</label>
+                <input type="text" id="title" class="form-control" name="title" [ngModel]="book.title" required>
+            </div>
+            <div class="form-group my-2">
+                <label for="author">Auteur</label>
+                <input type="text" id="author" class="form-control" name="author" [ngModel]="book.author" required>
+            </div>
+            <div class="form-group my-2">
+                <label for="year">Année</label>
+                <input type="text" id="year" class="form-control" name="year" [ngModel]="book.year" required>
+            </div>
+            <div class="form-group my-2">
+                <label for="photo">Photo</label>
+                <input type="file" id="photo" class="form-control" name="photo" ngModel>
+            </div>
+
+            <button type="submit" class="btn btn-primary  my-2" [disabled]="f.invalid" >Enregistrer</button>
+        </form>
+    </div>
+</div>

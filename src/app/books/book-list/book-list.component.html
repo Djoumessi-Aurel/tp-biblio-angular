@@ -1,0 +1,8 @@
+<h2>Liste des livres <span *ngIf="books.length > 0">({{books.length}})</span></h2>
+<p><a routerLink="/books/new">Ajouter un livre</a></p>
+<p *ngIf="books.length===0">Il n'y aucun livre pour le moment</p>
+<div class="books d-flex flex-column p-2" style="gap: 5px;">
+    <div *ngFor="let a_book of books;" class="border-top border-primary">
+        <app-single-book  [book]="a_book"></app-single-book>
+    </div>
+</div>
