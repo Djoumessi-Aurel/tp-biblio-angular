@@ -15,7 +15,7 @@ export class BookFormComponent implements OnInit, OnDestroy{
   book: Book = new Book(-1, '', '', '') //Valeur par défaut pour le formulaire d'ajout
   booksSubscription: Subscription = new Subscription()
   fileIsUploading: boolean = false
-  fileUrl!: string
+  fileUrl: string | undefined
   fileUploaded: boolean = false
 
   constructor(private booksService: BooksService, private router: Router,
@@ -33,7 +33,8 @@ export class BookFormComponent implements OnInit, OnDestroy{
           (books: Book[])=>{
             let i = books.findIndex((value)=> value.id === id);
             if(i>=0){
-              this.book = books[i]
+              this.book = books[i] //On est sur la page de modification du livre
+              this.fileUrl = this.book.photo
             }
             else this.router.navigate(['/books'])
           }
