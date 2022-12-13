@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { getAuth, onAuthStateChanged} from "firebase/auth";
-import { BooksService } from '../services/books.service';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +11,7 @@ export class HeaderComponent implements OnInit {
 
   isAuth: boolean = false
 
-  constructor(private authService: AuthService, private booksService: BooksService){}
+  constructor(private authService: AuthService){}
 
   ngOnInit(): void {
       onAuthStateChanged(getAuth(), 
@@ -25,9 +24,6 @@ export class HeaderComponent implements OnInit {
           }
         })
 
-        // Import books from database
-        this.booksService.getBooks()
-        this.booksService.emitBooks()
   }
 
   onSignOut(){

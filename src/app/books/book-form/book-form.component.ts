@@ -14,6 +14,9 @@ export class BookFormComponent implements OnInit, OnDestroy{
 
   book: Book = new Book(-1, '', '', '') //Valeur par défaut pour le formulaire d'ajout
   booksSubscription: Subscription = new Subscription()
+  fileIsUploading: boolean = false
+  fileUrl!: string
+  fileUploaded: boolean = false
 
   constructor(private booksService: BooksService, private router: Router,
     private route: ActivatedRoute){}
@@ -49,9 +52,14 @@ export class BookFormComponent implements OnInit, OnDestroy{
   }
 
   onSubmit(f: NgForm){
-    let a_book = {title: f.value['title'], author: f.value['author'], year: f.value['year'],
-                  id: this.book.id}
-    console.log(a_book)
+    
+    let a_book = new Book(this.book.id, f.value['title'], f.value['author'], f.value['year'])
+
+    if(this.fileUrl && this.fileUrl !== ''){
+      a_book.photo = this.fileUrl
+    }
+    //console.log(a_book)
+
     if(this.book.id===-1){ //Ajout d'un nouveau livre
       a_book.id = this.booksService.getLastBookId() + 1
       this.booksService.createNewBook(a_book)
@@ -61,5 +69,24 @@ export class BookFormComponent implements OnInit, OnDestroy{
     }
 
     this.router.navigate(['/books'])
+  }
+
+  onUploadFile(file: File){ //Uploade un fichier dans le cloud
+    this.fileIsUploading = true
+    this.booksService.uploadFile(file)
+      .then((url: string)=>{ //Lorsque l'upload est fini
+        this.fileUrl = url
+        this.fileIsUploading = false
+        this.fileUploaded = true
+      })
+      .catch(()=>{ //Lorsque l'upload échoue
+        this.fileUrl = ''
+        this.fileIsUploading = false
+        this.fileUploaded = false
+      })
+  }
+
+  detectFiles(event: any){
+    this.onUploadFile(event.target.files[0])
   }
 }

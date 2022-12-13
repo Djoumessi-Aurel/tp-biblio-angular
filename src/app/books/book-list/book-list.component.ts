@@ -23,6 +23,8 @@ export class BookListComponent implements OnInit, OnDestroy{
       }
     )
 
+    // Import books from database
+    this.booksService.getBooks()
     this.booksService.emitBooks()      
   }
 

@@ -17,10 +17,12 @@
             </div>
             <div class="form-group my-2">
                 <label for="photo">Photo</label>
-                <input type="file" id="photo" class="form-control" name="photo" ngModel>
+                <input type="file" id="photo" class="form-control" name="photo" 
+                (change)="detectFiles($event)" accept="image/*">
+                <p class="text-success" *ngIf="fileUploaded">Fichié chargé</p>
             </div>
 
-            <button type="submit" class="btn btn-primary  my-2" [disabled]="f.invalid" >Enregistrer</button>
+            <button type="submit" class="btn btn-primary  my-2" [disabled]="f.invalid || fileIsUploading" >Enregistrer</button>
         </form>
     </div>
 </div>
